@@ -1,34 +1,40 @@
 const fs = require('fs');
 const path = require('path');
 
-// Function to recursively get all files in directory
-function getAllFiles(dirPath, arrayOfFiles) {
-    const files = fs.readdirSync(dirPath);
-
-    arrayOfFiles = arrayOfFiles || [];
-
-    files.forEach(function(file) {
-        if (fs.statSync(dirPath + "/" + file).isDirectory()) {
-            arrayOfFiles = getAllFiles(dirPath + "/" + file, arrayOfFiles);
-        } else {
-            arrayOfFiles.push(path.join(dirPath, file));
-        }
-    });
-
-    return arrayOfFiles;
+function searchDirectory(directory) {
+    try {
+        const files = fs.readdirSync(directory);
+        
+        files.forEach(file => {
+            const filePath = path.join(directory, file);
+            const stat = fs.statSync(filePath);
+            
+            if (stat.isDirectory()) {
+                // Recursively search subdirectories
+                searchDirectory(filePath);
+            } else {
+                // Process files with these extensions
+                if (filePath.match(/\.(html|js|css|json)$/i)) {
+                    replaceInFile(filePath);
+                }
+            }
+        });
+    } catch (err) {
+        console.error(`Error processing directory ${directory}:`, err);
+    }
 }
 
-// Function to replace text in a file
 function replaceInFile(filePath) {
     try {
         let content = fs.readFileSync(filePath, 'utf8');
-        const originalContent = content;
+        const oldText = "nowggunblocked.gitlab.io";
+        const newText = "nowggunblocked.gitlab.io";
         
-        // Replace the text
-        content = content.replace(/Unblocked Games G\+/g, '1v1.LOL Unblocked');
-        
-        // Only write if content has changed
-        if (content !== originalContent) {
+        if (content.includes(oldText)) {
+            // Replace all occurrences
+            content = content.replace(new RegExp(oldText, 'g'), newText);
+            
+            // Write back to file
             fs.writeFileSync(filePath, content, 'utf8');
             console.log(`Updated: ${filePath}`);
         }
@@ -37,18 +43,8 @@ function replaceInFile(filePath) {
     }
 }
 
-// Get the current directory
-const currentDir = process.cwd();
+// Start processing from root directory
+const rootDirectory = 'f:\\best unblocked game';
+searchDirectory(rootDirectory);
 
-// Get all files
-const allFiles = getAllFiles(currentDir);
-
-// Process each file
-allFiles.forEach(file => {
-    // Only process HTML, JS, and CSS files
-    if (/\.(html|js|css)$/.test(file)) {
-        replaceInFile(file);
-    }
-});
-
-console.log('Text replacement completed!');
+console.log('Text replacement completed in all files!');
