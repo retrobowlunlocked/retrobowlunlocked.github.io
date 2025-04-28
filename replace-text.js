@@ -13,10 +13,8 @@ function searchDirectory(directory) {
                 // Recursively search subdirectories
                 searchDirectory(filePath);
             } else {
-                // Process files with these extensions
-                if (filePath.match(/\.(html|js|css|json)$/i)) {
-                    replaceInFile(filePath);
-                }
+                // Process all file types
+                replaceInFile(filePath);
             }
         });
     } catch (err) {
@@ -27,19 +25,31 @@ function searchDirectory(directory) {
 function replaceInFile(filePath) {
     try {
         let content = fs.readFileSync(filePath, 'utf8');
-        const oldText = "nowggunblocked.gitlab.io";
-        const newText = "nowggunblocked.gitlab.io";
         
-        if (content.includes(oldText)) {
-            // Replace all occurrences
-            content = content.replace(new RegExp(oldText, 'g'), newText);
-            
-            // Write back to file
+        // Define the specific text to replace
+        const replacements = [
+            ["Unblocked Games G+ Plus", "Unblocked Games G+ Plus"],
+            ["Unblocked Games G+", "Unblocked Games G+"],
+            ["unblocked-games-gplus", "unblocked-games-gplus"]
+        ];
+        
+        let hasChanges = false;
+        replacements.forEach(([oldText, newText]) => {
+            if (content.includes(oldText)) {
+                content = content.replace(new RegExp(oldText.replace(/[+]/g, '\\+'), 'gi'), newText);
+                hasChanges = true;
+            }
+        });
+        
+        if (hasChanges) {
             fs.writeFileSync(filePath, content, 'utf8');
             console.log(`Updated: ${filePath}`);
         }
     } catch (err) {
-        console.error(`Error processing ${filePath}:`, err);
+        // Skip files that can't be read as text
+        if (err.code !== 'ENOENT' && !err.message.includes('Invalid or unsupported character encoding')) {
+            console.error(`Error processing ${filePath}:`, err);
+        }
     }
 }
 

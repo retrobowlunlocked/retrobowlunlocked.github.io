@@ -24,12 +24,12 @@ function replaceInFile(filePath) {
     try {
         let content = fs.readFileSync(filePath, 'utf8');
         
-        // Specific domain replacement
-        const oldDomain = "unblockedgamesgplus2.gitlab.io";
-        const newDomain = "unblockedgamesgplus2.gitlab.io";
+        // The specific text to replace
+        const oldText = "Unblocked Games G+ — Play 100+ Free Games Anywhere! Safe, school-friendly, and no downloads. Enjoy action, puzzles, sports, and classics instantly!";
+        const newText = "Unblocked Games G+ — Play 100+ Free Games Anywhere! Safe, school-friendly, and no downloads. Enjoy action, puzzles, sports, and classics instantly!";
         
-        if (content.includes(oldDomain)) {
-            content = content.replace(new RegExp(oldDomain, 'g'), newDomain);
+        if (content.includes(oldText)) {
+            content = content.replace(new RegExp(oldText.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g'), newText);
             fs.writeFileSync(filePath, content, 'utf8');
             console.log(`Updated: ${filePath}`);
         }
@@ -44,4 +44,4 @@ function replaceInFile(filePath) {
 const rootDirectory = 'f:\\best unblocked game';
 searchDirectory(rootDirectory);
 
-console.log('Domain replacement completed in all files!');
+console.log('Description replacement completed in all files!');
