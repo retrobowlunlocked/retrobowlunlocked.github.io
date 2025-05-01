@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 const oldText = '1v1-lol-online.gitlab.io';
-const newText = 'unblockedgamesgplus2.gitlab.io';
+const newText = 'classroom6x.gitlab.io';
 
 function replaceInFile(filePath) {
     try {

@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 const oldText = '1v1.LOL Unblocked';
-const newText = 'Unblocked Games G+ Plus';
+const newText = 'Classroom 6x Unblocked';
 
 function replaceInFile(filePath) {
     try {

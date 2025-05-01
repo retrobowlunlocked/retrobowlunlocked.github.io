@@ -10,10 +10,8 @@ function searchDirectory(directory) {
             const stat = fs.statSync(filePath);
             
             if (stat.isDirectory()) {
-                // Recursively search subdirectories
                 searchDirectory(filePath);
             } else {
-                // Process all file types
                 replaceInFile(filePath);
             }
         });
@@ -26,27 +24,16 @@ function replaceInFile(filePath) {
     try {
         let content = fs.readFileSync(filePath, 'utf8');
         
-        // Define the specific text to replace
-        const replacements = [
-            ["Classroom 6x Unblocked", "Classroom 6x Unblocked"],
-            ["Unblocked Games G+", "Unblocked Games G+"],
-            ["unblocked-games-gplus", "unblocked-games-gplus"]
-        ];
+        // The specific text to replace
+        const oldText = "Classroom 6x Unblocked";
+        const newText = "Classroom 6x Unblocked";
         
-        let hasChanges = false;
-        replacements.forEach(([oldText, newText]) => {
-            if (content.includes(oldText)) {
-                content = content.replace(new RegExp(oldText.replace(/[+]/g, '\\+'), 'gi'), newText);
-                hasChanges = true;
-            }
-        });
-        
-        if (hasChanges) {
+        if (content.includes(oldText)) {
+            content = content.replace(new RegExp(oldText.replace(/[+]/g, '\\+'), 'g'), newText);
             fs.writeFileSync(filePath, content, 'utf8');
             console.log(`Updated: ${filePath}`);
         }
     } catch (err) {
-        // Skip files that can't be read as text
         if (err.code !== 'ENOENT' && !err.message.includes('Invalid or unsupported character encoding')) {
             console.error(`Error processing ${filePath}:`, err);
         }
@@ -57,4 +44,4 @@ function replaceInFile(filePath) {
 const rootDirectory = 'f:\\best unblocked game';
 searchDirectory(rootDirectory);
 
-console.log('Text replacement completed in all files!');
+console.log('Title replacement completed in all files!');

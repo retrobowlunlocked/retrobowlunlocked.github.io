@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const oldText = '💥 Ready? Fight! Play Unblocked Games G+ Plus NOW—No Signup, No Lag. Build, Shoot & Rule the Arena Anytime!';
+const oldText = '💥 Ready? Fight! Play Classroom 6x Unblocked NOW—No Signup, No Lag. Build, Shoot & Rule the Arena Anytime!';
 const newText = 'Looking for unrestricted gaming? Unblocked Games G+ provides instant access to popular browser games, all completely free and available on any device. Play now without limitations!';
 
 function replaceInFile(filePath) {
