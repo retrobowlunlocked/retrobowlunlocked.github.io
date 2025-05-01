@@ -25,8 +25,8 @@ function replaceInFile(filePath) {
         let content = fs.readFileSync(filePath, 'utf8');
         
         // The specific text to replace
-        const oldDomain = "classroom6x.gitlab.io";
-        const newDomain = "classroom6x.gitlab.io";
+        const oldDomain = "classroom6xx.gitlab.io";
+        const newDomain = "classroom6xx.gitlab.io";
         
         if (content.includes(oldDomain)) {
             content = content.replace(new RegExp(oldDomain, 'g'), newDomain);
