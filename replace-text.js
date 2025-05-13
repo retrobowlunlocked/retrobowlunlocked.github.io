@@ -1,60 +1,34 @@
 const fs = require('fs');
 const path = require('path');
 
-function searchDirectory(directory) {
-    try {
-        const files = fs.readdirSync(directory);
-        
-        files.forEach(file => {
-            const filePath = path.join(directory, file);
-            const stat = fs.statSync(filePath);
-            
-            if (stat.isDirectory()) {
-                // Recursively search subdirectories
-                searchDirectory(filePath);
-            } else {
-                // Process all file types
-                replaceInFile(filePath);
-            }
-        });
-    } catch (err) {
-        console.error(`Error processing directory ${directory}:`, err);
-    }
-}
+const oldText = "Looking for unrestricted gaming? Poki Unblocked+ provides instant access to popular browser games, all completely free and available on any device. Play now without limitations!";
+const newText = "Discover Poki Unblocked at pokiunblockedonline.gitlab.io - Your #1 destination for free, unblocked online games that work anywhere. Play hundreds of exciting games with no downloads or restrictions. Perfect for kids and teens looking for gaming fun anytime!";
 
 function replaceInFile(filePath) {
     try {
         let content = fs.readFileSync(filePath, 'utf8');
-        
-        // Define the specific text to replace
-        const replacements = [
-            ["Classroom 6x Unblocked", "Classroom 6x Unblocked"],
-            ["Unblocked Games G+", "Unblocked Games G+"],
-            ["unblocked-games-gplus", "unblocked-games-gplus"]
-        ];
-        
-        let hasChanges = false;
-        replacements.forEach(([oldText, newText]) => {
-            if (content.includes(oldText)) {
-                content = content.replace(new RegExp(oldText.replace(/[+]/g, '\\+'), 'gi'), newText);
-                hasChanges = true;
-            }
-        });
-        
-        if (hasChanges) {
+        if (content.includes(oldText)) {
+            content = content.replace(new RegExp(oldText, 'g'), newText);
             fs.writeFileSync(filePath, content, 'utf8');
             console.log(`Updated: ${filePath}`);
         }
     } catch (err) {
-        // Skip files that can't be read as text
-        if (err.code !== 'ENOENT' && !err.message.includes('Invalid or unsupported character encoding')) {
-            console.error(`Error processing ${filePath}:`, err);
-        }
+        console.error(`Error processing ${filePath}:`, err);
     }
 }
 
-// Start processing from root directory
-const rootDirectory = 'f:\\best unblocked game';
-searchDirectory(rootDirectory);
+function walkDir(dir) {
+    const files = fs.readdirSync(dir);
+    files.forEach(file => {
+        const filePath = path.join(dir, file);
+        const stat = fs.statSync(filePath);
+        if (stat.isDirectory()) {
+            walkDir(filePath);
+        } else if (stat.isFile() && (file.endsWith('.html') || file.endsWith('.js'))) {
+            replaceInFile(filePath);
+        }
+    });
+}
 
-console.log('Text replacement completed in all files!');
+// Start the replacement process
+walkDir('f:\\best unblocked game');
