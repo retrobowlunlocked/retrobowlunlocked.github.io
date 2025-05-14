@@ -1,8 +1,8 @@
 const fs = require('fs');
 const path = require('path');
 
-const oldText = "Looking for unrestricted gaming? Poki Unblocked+ provides instant access to popular browser games, all completely free and available on any device. Play now without limitations!";
-const newText = "Discover Poki Unblocked at pokiunblockedonline.gitlab.io - Your #1 destination for free, unblocked online games that work anywhere. Play hundreds of exciting games with no downloads or restrictions. Perfect for kids and teens looking for gaming fun anytime!";
+const oldText = "Looking for unrestricted gaming? Unblocked Games 76 77+ provides instant access to popular browser games, all completely free and available on any device. Play now without limitations!";
+const newText = "Discover Unblocked Games 76 77 at pokiunblockedonline.gitlab.io - Your #1 destination for free, unblocked online games that work anywhere. Play hundreds of exciting games with no downloads or restrictions. Perfect for kids and teens looking for gaming fun anytime!";
 
 function replaceInFile(filePath) {
     try {

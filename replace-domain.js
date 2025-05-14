@@ -1,14 +1,14 @@
 const fs = require('fs');
 const path = require('path');
 
-const searchDomain = 'pokiunblockedonline.gitlab.io';
-const replaceDomain = 'pokiunblockedonline.gitlab.io';
+const oldText = "Unblocked Games 76 77";
+const newText = "Unblocked Games 76 77 77";
 
 function replaceInFile(filePath) {
     try {
         let content = fs.readFileSync(filePath, 'utf8');
-        if (content.includes(searchDomain)) {
-            content = content.replace(new RegExp(searchDomain, 'g'), replaceDomain);
+        if (content.includes(oldText)) {
+            content = content.replace(new RegExp(oldText, 'g'), newText);
             fs.writeFileSync(filePath, content, 'utf8');
             console.log(`Updated: ${filePath}`);
         }

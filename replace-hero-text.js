@@ -25,8 +25,8 @@ function replaceInFile(filePath) {
         let content = fs.readFileSync(filePath, 'utf8');
         
         // The specific text to replace
-        const oldText = "Discover Poki Unblocked+: Play free games anywhere, even at school! Enjoy endless fun with zero restrictions—action, racing, brain teasers, and more. No ads, no registration, just pure gaming joy. Perfect for breaks, rewards, or quick playtime!";
-        const newText = "Discover Poki Unblocked+: Play free games anywhere, even at school! Enjoy endless fun with zero restrictions—action, racing, brain teasers, and more. No ads, no registration, just pure gaming joy. Perfect for breaks, rewards, or quick playtime!";
+        const oldText = "Discover Unblocked Games 76 77+: Play free games anywhere, even at school! Enjoy endless fun with zero restrictions—action, racing, brain teasers, and more. No ads, no registration, just pure gaming joy. Perfect for breaks, rewards, or quick playtime!";
+        const newText = "Discover Unblocked Games 76 77+: Play free games anywhere, even at school! Enjoy endless fun with zero restrictions—action, racing, brain teasers, and more. No ads, no registration, just pure gaming joy. Perfect for breaks, rewards, or quick playtime!";
         
         if (content.includes(oldText)) {
             content = content.replace(new RegExp(oldText.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g'), newText);
