@@ -1,40 +1,51 @@
 const fs = require('fs');
 const path = require('path');
+const cheerio = require('cheerio');
 
-function replaceDivSpacing(filePath) {
-  try {
-    let content = fs.readFileSync(filePath, 'utf8');
-    
-    // Define the old pattern with multiple empty lines
-    const oldPattern = /\s+<\/div>\s+\s+\s+\s+\s+\s+<\/div>\s+\s+\s+\s+\s+\s+\s+\s+<div class="sc-tbf0fc-0 gKdPGs sc-al88rd-8 jLkOBn">/g;
-    
-    // Define the new pattern with cleaned up spacing
-    const newPattern = `\n               \n       \n      </div>\n               \n            <div class="sc-tbf0fc-0 gKdPGs sc-al88rd-8 jLkOBn">`;
-    
-    // Only replace if the pattern exists
-    if(content.match(oldPattern)) {
-      content = content.replace(oldPattern, newPattern);
-      fs.writeFileSync(filePath, content, 'utf8');
-      console.log(`Updated div spacing in: ${filePath}`);
+// Array to store found URLs
+const urls = [];
+
+// Function to find data-url in HTML file
+function findDataUrl(filePath) {
+    try {
+        const content = fs.readFileSync(filePath, 'utf8');
+        const $ = cheerio.load(content);
+        
+        // Find elements with data-url attribute
+        $('[data-url]').each((i, element) => {
+            const url = $(element).attr('data-url');
+            if (url) {
+                urls.push(url);
+                console.log(`Found URL in ${path.basename(filePath)}: ${url}`);
+            }
+        });
+    } catch (err) {
+        console.error(`Error processing ${filePath}:`, err);
     }
-  } catch (err) {
-    console.error(`Error processing ${filePath}:`, err);
-  }
 }
 
+// Function to walk through directories
 function walkDir(dir) {
-  const files = fs.readdirSync(dir);
-  files.forEach(file => {
-    const filePath = path.join(dir, file);
-    const stat = fs.statSync(filePath);
-    if (stat.isDirectory() && !file.startsWith('.')) {
-      walkDir(filePath);
-    } else if (file.endsWith('.html')) {
-      replaceDivSpacing(filePath);
-    }
-  });
+    const files = fs.readdirSync(dir);
+    files.forEach(file => {
+        const filePath = path.join(dir, file);
+        const stat = fs.statSync(filePath);
+        if (stat.isDirectory()) {
+            walkDir(filePath);
+        } else if (stat.isFile() && file.endsWith('.html')) {
+            findDataUrl(filePath);
+        }
+    });
 }
 
-// Start processing from the games directory
-walkDir('c:\\Users\\pc\\Pictures\\Screenshots\\test code\\best unblocked game\\games');
-console.log('Div spacing replacement complete!');
+// First install required package
+console.log('Installing required package...');
+require('child_process').execSync('npm install cheerio');
+
+// Start crawling
+console.log('Starting to crawl files...');
+walkDir('f:\\best unblocked game');
+
+// Save URLs to file
+fs.writeFileSync('f:\\best unblocked game\\iframe.txt', urls.join('\n'));
+console.log(`Found ${urls.length} URLs and saved to iframe.txt`);

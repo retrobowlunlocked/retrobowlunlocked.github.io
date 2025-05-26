@@ -1,22 +1,30 @@
 const fs = require('fs');
 const path = require('path');
+const cheerio = require('cheerio');
 
-const oldText = "Unblocked Games 76 77";
-const newText = "Unblocked Games 76 77";
+// Array to store found URLs
+const urls = [];
 
-function replaceInFile(filePath) {
+// Function to find data-url in HTML file
+function findDataUrl(filePath) {
     try {
-        let content = fs.readFileSync(filePath, 'utf8');
-        if (content.includes(oldText)) {
-            content = content.replace(new RegExp(oldText, 'g'), newText);
-            fs.writeFileSync(filePath, content, 'utf8');
-            console.log(`Updated: ${filePath}`);
-        }
+        const content = fs.readFileSync(filePath, 'utf8');
+        const $ = cheerio.load(content);
+        
+        // Find elements with data-url attribute
+        $('[data-url]').each((i, element) => {
+            const url = $(element).attr('data-url');
+            if (url) {
+                urls.push(url);
+                console.log(`Found URL in ${path.basename(filePath)}: ${url}`);
+            }
+        });
     } catch (err) {
         console.error(`Error processing ${filePath}:`, err);
     }
 }
 
+// Function to walk through directories
 function walkDir(dir) {
     const files = fs.readdirSync(dir);
     files.forEach(file => {
@@ -24,11 +32,20 @@ function walkDir(dir) {
         const stat = fs.statSync(filePath);
         if (stat.isDirectory()) {
             walkDir(filePath);
-        } else if (stat.isFile() && (file.endsWith('.html') || file.endsWith('.js'))) {
-            replaceInFile(filePath);
+        } else if (stat.isFile() && file.endsWith('.html')) {
+            findDataUrl(filePath);
         }
     });
 }
 
-// Start the replacement process
+// First install required package
+console.log('Installing required package...');
+require('child_process').execSync('npm install cheerio');
+
+// Start crawling
+console.log('Starting to crawl files...');
 walkDir('f:\\best unblocked game');
+
+// Save URLs to file
+fs.writeFileSync('f:\\best unblocked game\\iframe.txt', urls.join('\n'));
+console.log(`Found ${urls.length} URLs and saved to iframe.txt`);

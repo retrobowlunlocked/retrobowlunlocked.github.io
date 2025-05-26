@@ -1,0 +1,23 @@
+{
+  "name": "best-unblocked-game",
+  "version": "1.0.0",
+  "main": "crawlurls.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitlab.com/unblockedgames7677/unblockedgames7677.gitlab.io.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://gitlab.com/unblockedgames7677/unblockedgames7677.gitlab.io/issues"
+  },
+  "homepage": "https://gitlab.com/unblockedgames7677/unblockedgames7677.gitlab.io#readme",
+  "dependencies": {
+    "cheerio": "^1.0.0"
+  },
+  "description": ""
+}
