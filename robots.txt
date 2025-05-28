@@ -1,4 +1,4 @@
 User-agent: *
 Disallow: /wp-admin/
 Allow: /wp-admin/admin-ajax.php
-Sitemap: https://1v1-lol-online.gitlab.io/site_map.xml
+Sitemap: https://retrobowlunlocked.github.io/site_map.xml
